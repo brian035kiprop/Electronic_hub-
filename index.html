@@ -134,6 +134,7 @@ function checkAdminAuth() {
   const entered = prompt("🔒 ElectronicHub Security Access\n\nEnter Admin PIN:");
   if (entered === ADMIN_PIN) {
     sessionStorage.setItem("eh_admin_auth", "granted");
+    location.hash = "#admin"; // Forces the page to route to admin immediately
     return true;
   } else if (entered !== null) {
     alert("❌ Access denied: Incorrect PIN.");
