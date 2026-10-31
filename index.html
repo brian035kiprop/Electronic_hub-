@@ -84,33 +84,252 @@ const models=[
 ];
 
  
-const products=[];
-for(let i=0;i<200;i++){
- const m=models[i%models.length],cycle=Math.floor(i/models.length);
- const suffix=cycle===0?"":` (Variant ${cycle+1})`;
- const [brand,model,category,base,cpu,gpu,screen]=m;
- const price=base+cycle*1500;
- products.push({id:i+1,brand,name:brand+" "+model+suffix,category,price,cpu,gpu,screen,ram:cycle%2?"16GB":"8GB",storage:cycle%3===0?"256GB SSD":cycle%3===1?"512GB SSD":"1TB SSD",image:laptopPhotos[i%laptopPhotos.length],description:`${brand} ${model}. A ${category.toLowerCase()} laptop option. Confirm the exact configuration and availability with ElectronicHub before ordering.`});
+let products=[];
+try {
+  const savedProds = localStorage.getItem("eh-products-v2");
+  if(savedProds) {
+    products = JSON.parse(savedProds);
+  } else {
+    for(let i=0;i<models.length;i++){
+     const [brand,model,category,base,cpu,gpu,screen]=models[i];
+     products.push({id:i+1,brand,name:brand+" "+model,category,price:base,stock:10,cpu,gpu,screen,ram:"16GB",storage:"512GB SSD",image:laptopPhotos[i%laptopPhotos.length],description:`${brand} ${model}. High quality laptop option.`});
+    }
+  }
+} catch(e) { products=[]; }
+
+function saveProductsStorage(){
+  localStorage.setItem("eh-products-v2", JSON.stringify(products));
 }
+
 let cart=[];try{cart=JSON.parse(localStorage.getItem("eh-cart-v2")||"[]")}catch(e){}
 let filter={q:"",cat:"All",max:999999,sort:"featured"};
 const app=document.getElementById("app");
-function save(){localStorage.setItem("eh-cart-v2",JSON.stringify(cart))}
-function card(p){return `<article class="product"><img src="${p.image}" alt="Laptop product photograph" loading="lazy" onerror="this.src='${laptopPhotos[0]}'"><div class="product-body"><span class="tag">${p.brand} · ${p.category}</span><h3>${p.name}</h3><div class="small">${p.cpu} · ${p.ram} RAM · ${p.storage}</div><div class="price">${money(p.price)}</div><button class="btn" onclick="showDetail(${p.id})">View details</button><button class="chip" onclick="addCart(${p.id})">Add to cart</button></div></article>`}
-function home(){return `<div class="hero"><div class="wrap hero-inner"><div><span class="pill">📍 Nairobi CBD · Shop with confidence</span><h1>Find the laptop that fits your life.</h1><p>Explore laptops for work, school, gaming and creativity. Compare specifications and contact us on WhatsApp.</p><div class="actions"><a class="btn light" href="#shop">Browse laptops</a><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, help me choose a laptop.")}">Chat on WhatsApp</a></div></div><img class="hero-img" src="${laptopPhotos[1]}" alt="Laptop on a desk"></div></div><div class="wrap"><section><div class="section-head"><h2>What do you need a laptop for?</h2><p>Choose a category to find suitable models.</p></div><div class="needs">${[["💼","Business & Office","Business"],["🎓","School & Study","Student"],["🎮","Gaming","Gaming"],["🎨","Design & Video","Creative"]].map(x=>`<div class="need" onclick="filter.cat='${x[2]}';location.hash='shop'"><span class="emoji">${x[0]}</span><b>${x[1]}</b><span class="muted">${products.filter(p=>p.category===x[2]).length} listings</span></div>`).join("")}</div></section><section><div class="section-head"><h2>Featured laptops</h2><p>Browse some popular options.</p></div><div class="products">${products.slice(0,4).map(card).join("")}</div><div class="actions"><a class="btn" href="#shop">View all 200 listings →</a></div></section></div>`}
-function shop(){return `<div class="wrap"><section><div class="section-head"><h2>Browse laptops</h2><p>Search by brand, model or intended use. Prices are sample guide prices and must be confirmed.</p></div><div class="toolbar"><input id="search" placeholder="Search HP, Dell, ThinkPad, gaming..." value="${filter.q}"><select id="max"><option value="999999">Any price</option><option value="30000">Under KES 30,000</option><option value="50000">Under KES 50,000</option><option value="70000">Under KES 70,000</option><option value="100000">Under KES 100,000</option><option value="150000">Under KES 150,000</option></select><select id="sort"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div><div class="filters">${["All","Business","Student","Gaming","Creative"].map(c=>`<button class="chip ${filter.cat===c?"active":""}" onclick="setCategory('${c}')">${c}</button>`).join("")}</div><p class="muted" id="resultCount"></p><div class="products" id="productGrid"></div></section></div>`}
-function renderGrid(){const q=filter.q.toLowerCase();let list=products.filter(p=>(filter.cat==="All"||p.category===filter.cat)&&p.price<=filter.max&&(p.name+" "+p.cpu+" "+p.category).toLowerCase().includes(q));if(filter.sort==="low")list.sort((a,b)=>a.price-b.price);if(filter.sort==="high")list.sort((a,b)=>b.price-a.price);document.getElementById("resultCount").textContent=`Showing ${list.length} of 200 laptop listings`;document.getElementById("productGrid").innerHTML=list.length?list.map(card).join(""):'<p class="empty">No matching laptops found. Try another search or contact us on WhatsApp.</p>'}
+function saveCart(){localStorage.setItem("eh-cart-v2",JSON.stringify(cart))}
+
+function card(p){return `<article class="product"><img src="${p.image}" alt="Laptop" loading="lazy" onerror="this.src='${laptopPhotos[0]}'"><div class="product-body"><span class="tag">${p.brand} · ${p.category}</span><h3>${p.name}</h3><div class="small">${p.cpu} · ${p.ram} · ${p.storage}</div><div class="price">${money(p.price)}</div><button class="btn" onclick="showDetail(${p.id})">View details</button><button class="chip" onclick="addCart(${p.id})">Add to cart</button></div></article>`}
+
+function home(){return `<div class="hero"><div class="wrap hero-inner"><div><span class="pill">📍 Nairobi CBD · Shop with confidence</span><h1>Find the laptop that fits your life.</h1><p>Explore laptops for work, school, gaming and creativity. Compare specs and chat on WhatsApp.</p><div class="actions"><a class="btn light" href="#shop">Browse laptops</a><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, help me choose a laptop.")}">Chat on WhatsApp</a></div></div><img class="hero-img" src="${laptopPhotos[1]}" alt="Laptop"></div></div><div class="wrap"><section><div class="section-head"><h2>What do you need a laptop for?</h2><p>Choose a category.</p></div><div class="needs">${[["💼","Business & Office","Business"],["🎓","School & Study","Student"],["🎮","Gaming","Gaming"],["🎨","Design & Video","Creative"]].map(x=>`<div class="need" onclick="filter.cat='${x[2]}';location.hash='shop'"><span class="emoji">${x[0]}</span><b>${x[1]}</b><span class="muted">${products.filter(p=>p.category===x[2]).length} listings</span></div>`).join("")}</div></section><section><div class="section-head"><h2>Featured laptops</h2><p>Popular options.</p></div><div class="products">${products.slice(0,4).map(card).join("")}</div><div class="actions"><a class="btn" href="#shop">View all listings →</a></div></section></div>`}
+
+function shop(){return `<div class="wrap"><section><div class="section-head"><h2>Browse laptops</h2><p>Search by brand, model or use.</p></div><div class="toolbar"><input id="search" placeholder="Search HP, Dell, ThinkPad..." value="${filter.q}"><select id="max"><option value="999999">Any price</option><option value="50000">Under KES 50,000</option><option value="100000">Under KES 100,000</option></select><select id="sort"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div><div class="filters">${["All","Business","Student","Gaming","Creative"].map(c=>`<button class="chip ${filter.cat===c?"active":""}" onclick="setCategory('${c}')">${c}</button>`).join("")}</div><p class="muted" id="resultCount"></p><div class="products" id="productGrid"></div></section></div>`}
+
+function renderGrid(){const q=filter.q.toLowerCase();let list=products.filter(p=>(filter.cat==="All"||p.category===filter.cat)&&p.price<=filter.max&&(p.name+" "+p.cpu+" "+p.category).toLowerCase().includes(q));if(filter.sort==="low")list.sort((a,b)=>a.price-b.price);if(filter.sort==="high")list.sort((a,b)=>b.price-a.price);document.getElementById("resultCount").textContent=`Showing ${list.length} laptop listings`;document.getElementById("productGrid").innerHTML=list.length?list.map(card).join(""):'<p class="empty">No matching laptops found.</p>';}
 function setCategory(c){filter.cat=c;document.querySelectorAll(".filters .chip").forEach(b=>b.classList.toggle("active",b.textContent===c));renderGrid()}
 function bindShop(){const s=document.getElementById("search"),mx=document.getElementById("max"),so=document.getElementById("sort");mx.value=filter.max;so.value=filter.sort;s.oninput=()=>{filter.q=s.value;renderGrid()};mx.onchange=()=>{filter.max=+mx.value;renderGrid()};so.onchange=()=>{filter.sort=so.value;renderGrid()};renderGrid()}
 function showDetail(id){location.hash="product-"+id}
-function detail(id){const p=products.find(x=>x.id===id);if(!p)return home();return `<div class="wrap"><section><a href="#shop" class="muted">← Back to laptops</a><div class="detail" style="margin-top:18px"><div><img class="detail-photo" src="${p.image}" alt="${p.name} laptop photograph"></div><div><span class="tag">${p.brand} · ${p.category}</span><h1 style="font-size:clamp(30px,5vw,42px);margin:8px 0">${p.name}</h1><div class="price">${money(p.price)}</div><p>${p.description}</p><table class="specs"><tr><td>Processor</td><td>${p.cpu}</td></tr><tr><td>Graphics</td><td>${p.gpu}</td></tr><tr><td>Display</td><td>${p.screen}</td></tr><tr><td>RAM</td><td>${p.ram}</td></tr><tr><td>Storage</td><td>${p.storage}</td></tr></table><p class="notice">Photograph may be representative and not the exact model/configuration. Confirm actual product photos, specifications, price and stock with the shop.</p><div class="actions"><button class="btn" onclick="addCart(${p.id})">🛒 Add to cart</button><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, is "+p.name+" available at "+money(p.price)+"? Please send actual photos and confirm specifications.")}">Ask on WhatsApp</a></div><p class="muted">📍 ElectronicHub, Nairobi CBD · 0113 358 070</p></div></div></section></div>`}
-function about(){return `<div class="wrap"><section><h2>About ElectronicHub</h2><p class="muted">Your laptop shop in Nairobi CBD.</p><div class="two"><div class="info"><h3>Our story</h3><p>ElectronicHub helps customers find laptops for work, studies, gaming and creative projects. Our aim is to make comparing laptop specifications easier.</p></div><div class="info"><h3>Why contact us?</h3><p>✔ Help choosing a laptop<br>✔ Product specification guidance<br>✔ WhatsApp enquiries<br>✔ Walk-in shop in Nairobi CBD</p></div></div></section></div>`}
-function contact(){return `<div class="wrap"><section><h2>Contact ElectronicHub</h2><p class="muted">Visit our shop or send us a message.</p><div class="two"><div class="info"><h3>📍 Nairobi CBD, Kenya</h3><p>WhatsApp: 0113 358 070<br>Opening: Monday–Saturday, 8:30am–6:30pm</p><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, I would like to make an enquiry.")}">Chat on WhatsApp</a></div><div class="info"><h3>Send a message</h3><input class="contact-input" id="customerName" placeholder="Your name" style="width:100%;margin:10px 0"><input class="contact-input" id="message" placeholder="What laptop are you looking for?" style="width:100%;margin-bottom:12px"><button class="btn green" onclick="sendMessage()">Send on WhatsApp</button></div></div></section></div>`}
-function sendMessage(){const n=document.getElementById("customerName").value||"a customer",m=document.getElementById("message").value||"I need help choosing a laptop.";window.open(wa(`Hello ElectronicHub, I am ${n}. ${m}`),"_blank")}
-function addCart(id){const p=products.find(x=>x.id===id);const old=cart.find(x=>x.id===id);if(old)old.qty++;else cart.push({id:p.id,name:p.name,price:p.price,qty:1});save();updateCart();alert(p.name+" added to cart")}
-function removeCart(id){cart=cart.filter(x=>x.id!==id);save();updateCart()}
-function updateCart(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="cartline"><span>${x.qty} × ${x.name}<br><b>${money(x.price*x.qty)}</b></span><button onclick="removeCart(${x.id})">Remove</button></div>`).join(""):'<p class="muted">Your cart is empty.</p>';const total=cart.reduce((s,x)=>s+x.price*x.qty,0);document.getElementById("cartTotal").textContent=cart.length?"Total: "+money(total):"";document.getElementById("checkout").href=wa(cart.length?"Hello ElectronicHub, I would like to order:\n"+cart.map(x=>`${x.qty} × ${x.name} – ${money(x.price*x.qty)}`).join("\n")+"\nTotal: "+money(total):"Hello ElectronicHub, I have an enquiry.")}
-function route(){const h=(location.hash||"#home").slice(1);if(h.startsWith("product-"))app.innerHTML=detail(Number(h.slice(8)));else if(h==="shop"){app.innerHTML=shop();bindShop()}else if(h==="about")app.innerHTML=about();else if(h==="contact")app.innerHTML=contact();else app.innerHTML=home();document.querySelectorAll(".links a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+(h.startsWith("product-")?"shop":h)));window.scrollTo(0,0)}
-document.getElementById("cartOpen").onclick=()=>document.getElementById("drawer").classList.add("open");document.getElementById("cartClose").onclick=()=>document.getElementById("drawer").classList.remove("open");document.getElementById("drawer").onclick=e=>{if(e.target.id==="drawer")e.currentTarget.classList.remove("open")};document.getElementById("whatsapp").href=wa("Hello ElectronicHub, I need help choosing a laptop.");document.getElementById("checkout").href=wa("Hello ElectronicHub");window.addEventListener("hashchange",route);updateCart();route();
+function detail(id){const p=products.find(x=>x.id===id);if(!p)return home();return `<div class="wrap"><section><a href="#shop" class="muted">← Back to laptops</a><div class="detail" style="margin-top:18px"><div><img class="detail-photo" src="${p.image}" alt="${p.name}"></div><div><span class="tag">${p.brand} · ${p.category}</span><h1 style="font-size:clamp(30px,5vw,42px);margin:8px 0">${p.name}</h1><div class="price">${money(p.price)}</div><p>${p.description}</p><table class="specs"><tr><td>Processor</td><td>${p.cpu}</td></tr><tr><td>Graphics</td><td>${p.gpu}</td></tr><tr><td>Display</td><td>${p.screen}</td></tr><tr><td>RAM</td><td>${p.ram}</td></tr><tr><td>Storage</td><td>${p.storage}</td></tr><tr><td>Stock</td><td><b>${p.stock || 5} units available</b></td></tr></table><div class="actions"><button class="btn" onclick="addCart(${p.id})">🛒 Add to cart</button><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, is "+p.name+" available at "+money(p.price)+"?")}">Ask on WhatsApp</a></div></div></div></section></div>`}
+function about(){return `<div class="wrap"><section><h2>About ElectronicHub</h2><p class="muted">Your laptop shop in Nairobi CBD.</p><div class="two"><div class="info"><h3>Our story</h3><p>ElectronicHub helps customers find laptops for work, studies, gaming and creativity.</p></div><div class="info"><h3>Visit us</h3><p>Nairobi CBD, Kenya<br>WhatsApp: 0113 358 070</p></div></div></section></div>`}
+function contact(){return `<div class="wrap"><section><h2>Contact ElectronicHub</h2><p class="muted">Send us a message.</p><div class="two"><div class="info"><h3>📍 Nairobi CBD</h3><p>WhatsApp: 0113 358 070</p><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, enquiry.")}">Chat on WhatsApp</a></div><div class="info"><h3>Quick message</h3><input class="contact-input" id="customerName" placeholder="Your name" style="width:100%;margin:10px 0"><input class="contact-input" id="message" placeholder="What laptop do you need?" style="width:100%;margin-bottom:12px"><button class="btn green" onclick="sendMessage()">Send on WhatsApp</button></div></div></section></div>`}
+function sendMessage(){const n=document.getElementById("customerName").value||"Customer",m=document.getElementById("message").value||"I need a laptop.";window.open(wa(`Hello ElectronicHub, I am ${n}. ${m}`),"_blank")}
+function addCart(id){const p=products.find(x=>x.id===id);const old=cart.find(x=>x.id===id);if(old)old.qty++;else cart.push({id:p.id,name:p.name,price:p.price,qty:1});saveCart();updateCart();alert(p.name+" added to cart")}
+function removeCart(id){cart=cart.filter(x=>x.id!==id);saveCart();updateCart()}
+function updateCart(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="cartline"><span>${x.qty} × ${x.name}<br><b>${money(x.price*x.qty)}</b></span><button onclick="removeCart(${x.id})">Remove</button></div>`).join(""):'<p class="muted">Your cart is empty.</p>';const total=cart.reduce((s,x)=>s+x.price*x.qty,0);document.getElementById("cartTotal").textContent=cart.length?"Total: "+money(total):"";document.getElementById("checkout").href=wa(cart.length?"Hello ElectronicHub, I would like to order:\n"+cart.map(x=>`${x.qty} × ${x.name} – ${money(x.price*x.qty)}`).join("\n")+"\nTotal: "+money(total):"Hello")}
+
+// ================= ADMIN & SECURITY FUNCTIONS =================
+const ADMIN_PIN = "8406";
+
+function checkAdminAuth() {
+  if (sessionStorage.getItem("eh_admin_auth") === "granted") {
+    return true;
+  }
+  const entered = prompt("🔒 ElectronicHub Security Access\n\nEnter Admin PIN:");
+  if (entered === ADMIN_PIN) {
+    sessionStorage.setItem("eh_admin_auth", "granted");
+    return true;
+  } else if (entered !== null) {
+    alert("❌ Access denied: Incorrect PIN.");
+  }
+  return false;
+}
+
+function adminLogout() {
+  sessionStorage.removeItem("eh_admin_auth");
+  location.hash = "#home";
+  alert("Logged out of Admin.");
+}
+
+function renderAdminDashboard() {
+  return `
+    <div class="admin-wrap">
+      <aside class="admin-sidebar">
+        <div class="logo" style="color:#fff">⚡ AdminHub</div>
+        <p class="small" style="color:#a39fc4">Nairobi CBD Control</p>
+        <nav style="margin-top:20px">
+          <a href="#admin" class="active">📊 Products Inventory</a>
+          <a href="#home" onclick="adminLogout()">🔒 Logout & Exit</a>
+        </nav>
+      </aside>
+      <main class="admin-main">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <h2>Dashboard Control Panel</h2>
+          <button class="btn green" onclick="openModal()">+ Add Product</button>
+        </div>
+        <div class="admin-stats">
+          <div class="stat-card"><h4>Total Laptops</h4><div class="val">${products.length}</div></div>
+          <div class="stat-card"><h4>Active Stock Units</h4><div class="val">${products.reduce((s,p)=>s+(p.stock||5),0)}</div></div>
+          <div class="stat-card"><h4>Est. Portfolio Value</h4><div class="val">${money(products.reduce((s,p)=>s+p.price,0))}</div></div>
+        </div>
+        <div style="background:#fff;border-radius:16px;border:1px solid var(--border);padding:20px">
+          <h3 style="margin-bottom:14px">Manage Laptop Inventory</h3>
+          <table class="admin-table">
+            <thead>
+              <tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              ${products.map(p=>`
+                <tr>
+                  <td><b>${p.name}</b><br><span class="small">${p.cpu}</span></td>
+                  <td>${p.category}</td>
+                  <td><b>${money(p.price)}</b></td>
+                  <td>${p.stock || 5} units</td>
+                  <td>
+                    <button class="chip" onclick="editProduct(${p.id})" style="padding:5px 10px;margin-right:5px">Edit</button>
+                    <button class="btn danger" onclick="deleteProduct(${p.id})" style="padding:5px 10px;font-size:12px">Delete</button>
+                  </td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+  `;
+}
+
+function openModal(id=null) {
+  document.getElementById("productModal").classList.add("open");
+  if(id) {
+    const p = products.find(x=>x.id===id);
+    document.getElementById("modalTitle").textContent = "Edit Laptop Product";
+    document.getElementById("editId").value = p.id;
+    document.getElementById("pName").value = p.name;
+    document.getElementById("pBrand").value = p.brand;
+    document.getElementById("pCategory").value = p.category;
+    document.getElementById("pPrice").value = p.price;
+    document.getElementById("pStock").value = p.stock || 5;
+    document.getElementById("pCpu").value = p.cpu;
+    document.getElementById("pGpu").value = p.gpu;
+    document.getElementById("pRam").value = p.ram;
+    document.getElementById("pStorage").value = p.storage;
+    document.getElementById("pScreen").value = p.screen;
+    document.getElementById("pImage").value = p.image;
+    document.getElementById("pDesc").value = p.description;
+  } else {
+    document.getElementById("modalTitle").textContent = "Add New Laptop";
+    document.getElementById("editId").value = "";
+    document.getElementById("pName").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("pStock").value = "10";
+    document.getElementById("pCpu").value = "Intel Core i5";
+    document.getElementById("pGpu").value = "Intel Iris Xe";
+    document.getElementById("pImage").value = laptopPhotos[0];
+    document.getElementById("pDesc").value = "Verified specification laptop.";
+  }
+}
+
+function closeModal() {
+  document.getElementById("productModal").classList.remove("open");
+}
+
+function saveProductForm() {
+  const id = document.getElementById("editId").value;
+  const name = document.getElementById("pName").value;
+  if(!name) { alert("Please enter a product name."); return; }
+  
+  const brand = document.getElementById("pBrand").value;
+  const category = document.getElementById("pCategory").value;
+  const price = Number(document.getElementById("pPrice").value) || 30000;
+  const stock = Number(document.getElementById("pStock").value) || 5;
+  const cpu = document.getElementById("pCpu").value;
+  const gpu = document.getElementById("pGpu").value;
+  const ram = document.getElementById("pRam").value;
+  const storage = document.getElementById("pStorage").value;
+  const screen = document.getElementById("pScreen").value;
+  const image = document.getElementById("pImage").value || laptopPhotos[0];
+  const description = document.getElementById("pDesc").value;
+
+  if(id) {
+    const p = products.find(x=>x.id===Number(id));
+    if(p) {
+      Object.assign(p, {name, brand, category, price, stock, cpu, gpu, ram, storage, screen, image, description});
+    }
+  } else {
+    const newId = products.length ? Math.max(...products.map(x=>x.id))+1 : 1;
+    products.unshift({id:newId, name, brand, category, price, stock, cpu, gpu, ram, storage, screen, image, description});
+  }
+
+  saveProductsStorage();
+  closeModal();
+  app.innerHTML = renderAdminDashboard();
+  alert("Product saved successfully!");
+}
+
+function editProduct(id) {
+  openModal(id);
+}
+
+function deleteProduct(id) {
+  if(confirm("Are you sure you want to delete this laptop?")) {
+    products = products.filter(x=>x.id!==id);
+    saveProductsStorage();
+    app.innerHTML = renderAdminDashboard();
+  }
+}
+
+// Mobile Logo Secret Triple Tap Trigger
+let logoClicks = 0;
+let logoTimer = null;
+
+document.addEventListener("click", function(e) {
+  if (e.target.closest(".logo")) {
+    logoClicks++;
+    clearTimeout(logoTimer);
+    if (logoClicks >= 3) {
+      logoClicks = 0;
+      if (checkAdminAuth()) {
+        location.hash = "#admin";
+        app.innerHTML = renderAdminDashboard();
+      }
+    } else {
+      logoTimer = setTimeout(() => { logoClicks = 0; }, 1000);
+    }
+  }
+});
+
+// Router
+function route(){
+  const h=(location.hash||"#home").slice(1);
+  if(h === "admin") {
+    if(checkAdminAuth()) {
+      app.innerHTML = renderAdminDashboard();
+    } else {
+      location.hash = "#home";
+      return;
+    }
+  } else if(h.startsWith("product-")) {
+    app.innerHTML = detail(Number(h.slice(8)));
+  } else if(h==="shop"){
+    app.innerHTML = shop();
+    bindShop();
+  } else if(h==="about") {
+    app.innerHTML = about();
+  } else if(h==="contact") {
+    app.innerHTML = contact();
+  } else {
+    app.innerHTML = home();
+  }
+  document.querySelectorAll(".links a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+(h.startsWith("product-")?"shop":h)));
+  window.scrollTo(0,0);
+}
+
+document.getElementById("cartOpen").onclick=()=>document.getElementById("drawer").classList.add("open");
+document.getElementById("cartClose").onclick=()=>document.getElementById("drawer").classList.remove("open");
+document.getElementById("drawer").onclick=e=>{if(e.target.id==="drawer")e.currentTarget.classList.remove("open")};
+document.getElementById("whatsapp").href=wa("Hello ElectronicHub, I need help choosing a laptop.");
+document.getElementById("checkout").href=wa("Hello ElectronicHub");
+
+window.addEventListener("hashchange", route);
+updateCart();
+route();
 </script>
-</body></html>
+</body>
+</html>
