@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElectronicHub | Laptops in Nairobi CBD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f6ff;--card:#fff;--tx:#17142d;--muted:#716d8d;--purple:#6d28d9;--pink:#ec4899;--border:#e7e3f5;--green:#159653}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.55 Inter,Arial,sans-serif}h1,h2,h3,.logo{font-family:"Space Grotesk",sans-serif;line-height:1.15;margin:0}a{text-decoration:none;color:inherit}.wrap{max-width:1160px;margin:auto;padding:0 18px}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--border)}.nav{height:68px;display:flex;align-items:center;gap:18px}.logo{font-size:22px;font-weight:700;margin-right:auto;background:linear-gradient(90deg,var(--purple),var(--pink));color:transparent;background-clip:text}.links{display:flex;gap:8px}.links a{padding:9px 12px;border-radius:30px;color:var(--muted);font-weight:600}.links a:hover,.links a.active{background:var(--bg);color:var(--purple)}button,select,input{font:inherit}.cartbtn,.btn{border:0;border-radius:13px;padding:11px 16px;font-weight:700;cursor:pointer}.cartbtn{background:var(--bg);border:1px solid var(--border)}.cartbtn span{background:var(--pink);color:#fff;padding:2px 7px;border-radius:20px;margin-left:5px}.hero{background:linear-gradient(120deg,#4c1d95,#be185d 70%,#f59e0b);color:#fff;padding:58px 0;border-radius:0 0 30px 30px}.hero-inner{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}.hero h1{font-size:clamp(36px,6vw,60px);max-width:650px}.hero p{font-size:18px;max-width:570px;opacity:.94}.hero-img{width:100%;height:300px;object-fit:cover;border-radius:24px;box-shadow:0 18px 40px #230b3544}.pill{display:inline-block;background:#ffffff28;padding:6px 12px;border-radius:30px;margin-bottom:16px;font-weight:600}.btn{display:inline-flex;justify-content:center;align-items:center;gap:7px;background:linear-gradient(90deg,var(--purple),var(--pink));color:#fff}.btn.green{background:var(--green)}.btn.light{background:#fff;color:#4c1d95}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+section{padding:38px 0}.section-head{margin-bottom:18px}.section-head p{color:var(--muted);margin:7px 0 0}.needs,.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.need,.product,.info{background:var(--card);border:1px solid var(--border);border-radius:19px;overflow:hidden}.need{padding:18px;cursor:pointer}.need:hover,.product:hover{border-color:var(--purple);transform:translateY(-3px);transition:.2s}.need .emoji{font-size:28px}.need b{display:block;font-family:"Space Grotesk";font-size:17px;margin:7px 0}.muted{color:var(--muted)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0}.toolbar input{flex:1;min-width:210px}.toolbar input,.toolbar select,.contact-input{padding:12px 14px;border:1px solid var(--border);border-radius:12px;background:#fff;color:var(--tx)}.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 12px}.chip{border:1px solid var(--border);background:#fff;padding:8px 14px;border-radius:30px;white-space:nowrap;cursor:pointer;font-weight:600}.chip.active{background:var(--purple);color:#fff;border-color:var(--purple)}.product{display:flex;flex-direction:column;cursor:pointer}.product img{width:100%;height:185px;object-fit:contain;background:#fff;padding:12px}.product-body{padding:15px;display:flex;flex-direction:column;gap:7px;flex:1}.tag{font-size:11px;color:var(--purple);font-weight:800;text-transform:uppercase;letter-spacing:.06em}.product h3{font-size:17px}.price{font:700 21px "Space Grotesk"}.small{font-size:12px;color:var(--muted)}.product .btn{margin-top:6px;width:100%}.detail{display:grid;grid-template-columns:1fr 1fr;gap:28px}.detail-photo{width:100%;height:390px;object-fit:contain;background:#fff;border:1px solid var(--border);border-radius:22px;padding:18px}.specs{width:100%;border-collapse:collapse;margin:18px 0}.specs td{padding:9px;border-bottom:1px solid var(--border)}.specs td:first-child{color:var(--muted);width:38%}.info{padding:22px}.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}.footer{background:#17142d;color:#ddd9f5;padding:34px 0;margin-top:30px}.footer a{color:#fff;font-weight:700}.fab{position:fixed;right:18px;bottom:18px;background:var(--green);color:#fff;padding:13px 18px;border-radius:30px;font-weight:700;box-shadow:0 8px 24px #0003;z-index:8}.drawer{position:fixed;inset:0;background:#0008;display:none;z-index:20}.drawer.open{display:block}.panel{position:absolute;right:0;top:0;height:100%;width:min(420px,100%);background:#fff;padding:22px;overflow:auto}.cartline{padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:12px}.cartline button{border:0;background:none;color:#d12d72;cursor:pointer;font-weight:700}.notice{font-size:12px;color:var(--muted);margin-top:10px}.empty{padding:30px;text-align:center;color:var(--muted);grid-column:1/-1}
+@media(max-width:760px){.nav{height:auto;min-height:64px;flex-wrap:wrap;padding:10px 0}.links{order:3;width:100%;justify-content:space-between}.links a{padding:7px 9px;font-size:13px}.hero-inner,.detail,.two{grid-template-columns:1fr}.hero-img{height:220px}.detail-photo{height:280px}.hero{padding:42px 0}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav"><a class="logo" href="#home">⚡ ElectronicHub</a><nav class="links"><a href="#home">Home</a><a href="#shop">Laptops</a><a href="#about">About</a><a href="#contact">Contact</a></nav><button class="cartbtn" id="cartOpen">🛒 Cart <span id="cartCount">0</span></button></div></header>
+<main id="app"></main>
+<footer class="footer"><div class="wrap two"><div><div class="logo">⚡ ElectronicHub</div><p>Find a laptop for work, school, gaming and creativity.</p></div><div><b>Visit our shop</b><p>Nairobi CBD, Kenya<br>WhatsApp: 0113 358 070<br>Mon–Sat, 8:30am–6:30pm</p></div></div></footer>
+<a class="fab" id="whatsapp" target="_blank" rel="noopener">💬 WhatsApp us</a>
+<div class="drawer" id="drawer"><div class="panel"><div style="display:flex;justify-content:space-between;align-items:center"><h2>Your cart</h2><button class="cartbtn" id="cartClose">Close ✕</button></div><div id="cartItems"></div><h3 id="cartTotal"></h3><a class="btn green" id="checkout" target="_blank" rel="noopener" style="width:100%">Order on WhatsApp</a></div></div>
+<script>
+const PHONE="254113358070";
+const wa=t=>"https://wa.me/"+PHONE+"?text="+encodeURIComponent(t);
+const money=n=>"KES "+Number(n).toLocaleString("en-KE");
+// General genuine laptop photographs. Replace with exact manufacturer photos when verified for each SKU.
+const laptopPhotos=[
+"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85",
+"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=85",
+"https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=85",
+"https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=900&q=85",
+"https://images.unsplash.com/photo-1593642634367-d91a135587b5?auto=format&fit=crop&w=900&q=85",
+"https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=900&q=85"
+];
+const models=[
+["HP","EliteBook 840 G6","Business",23600,"Intel Core i5 8th Gen","Intel UHD 620","14-inch Full HD"],
+["HP","EliteBook 840 G7","Business",34000,"Intel Core i5 10th Gen","Intel UHD","14-inch Full HD"],
+["HP","EliteBook 840 G8","Business",40700,"Intel Core i5 11th Gen","Intel Iris Xe","14-inch Full HD"],
+["HP","EliteBook 850 G7","Business",30000,"Intel Core i5 10th Gen","Intel UHD","15.6-inch Full HD"],
+["HP","ProBook 450 G7","Business",28500,"Intel Core i5 10th Gen","Intel UHD","15.6-inch Full HD"],
+["HP","ProBook 440 G8","Business",58000,"Intel Core i5 11th Gen","Intel Iris Xe","14-inch Full HD"],
+["HP","ProBook 430 G6","Business",25000,"Intel Core i5 8th Gen","Intel UHD 620","13.3-inch Full HD"],
+["HP","ZBook Firefly 14","Creative",120000,"Intel Core i7 10th Gen","NVIDIA Quadro P520","14-inch Full HD"],
+["HP","Pavilion 15","Student",43600,"Intel Core i5 11th Gen","Intel Iris Xe","15.6-inch Full HD"],
+["HP","250 G8","Student",28700,"Intel Core i3 10th Gen","Intel UHD","15.6-inch HD"],
+["HP","Victus 16","Gaming",135000,"AMD Ryzen 5 5600H","NVIDIA RTX 3050","16.1-inch 144Hz"],
+["HP","Omen 15","Gaming",165000,"Intel Core i7 10th Gen","NVIDIA RTX 3060","15.6-inch 144Hz"],
+["Dell","Latitude 7490","Business",48000,"Intel Core i5 8th Gen","Intel UHD 620","14-inch Full HD"],
+["Dell","Latitude 5400","Business",46000,"Intel Core i5 8th Gen","Intel UHD 620","14-inch Full HD"],
+["Dell","Latitude 5420","Business",62000,"Intel Core i5 11th Gen","Intel Iris Xe","14-inch Full HD"],
+["Dell","Latitude 7410","Business",72000,"Intel Core i7 10th Gen","Intel UHD","14-inch Full HD"],
+["Dell","Precision 5540","Creative",130000,"Intel Core i7 9th Gen","NVIDIA Quadro T1000","15.6-inch 4K"],
+["Dell","XPS 13 9310","Creative",125000,"Intel Core i7 11th Gen","Intel Iris Xe","13.4-inch Full HD+"],
+["Dell","Inspiron 15 3511","Student",42000,"Intel Core i3 11th Gen","Intel UHD","15.6-inch Full HD"],
+["Dell","G15 Gaming","Gaming",140000,"Intel Core i5 11th Gen","NVIDIA RTX 3050 Ti","15.6-inch 120Hz"],
+["Lenovo","ThinkPad T480","Business",40000,"Intel Core i5 8th Gen","Intel UHD 620","14-inch Full HD"],
+["Lenovo","ThinkPad T14","Business",68000,"Intel Core i5 10th Gen","Intel UHD","14-inch Full HD"],
+["Lenovo","ThinkPad X1 Carbon Gen 8","Business",95000,"Intel Core i7 10th Gen","Intel UHD","14-inch Full HD"],
+["Lenovo","ThinkBook 15","Business",62000,"Intel Core i5 10th Gen","Intel UHD","15.6-inch Full HD"],
+["Lenovo","IdeaPad 3","Student",40000,"Intel Core i3 11th Gen","Intel UHD","15.6-inch Full HD"],
+["Lenovo","IdeaPad Slim 5","Student",72000,"AMD Ryzen 5 5500U","AMD Radeon","15.6-inch Full HD"],
+["Lenovo","Yoga 7i","Creative",98000,"Intel Core i7 11th Gen","Intel Iris Xe","14-inch Touch"],
+["Lenovo","Legion 5","Gaming",150000,"AMD Ryzen 7 5800H","NVIDIA RTX 3060","15.6-inch 165Hz"],
+["ASUS","VivoBook 15","Student",44000,"Intel Core i3 11th Gen","Intel UHD","15.6-inch Full HD"],
+["ASUS","ZenBook 14","Creative",92000,"Intel Core i7 11th Gen","Intel Iris Xe","14-inch OLED"],
+["ASUS","ExpertBook B1","Business",56000,"Intel Core i5 11th Gen","Intel Iris Xe","14-inch Full HD"],
+["ASUS","ROG Strix G15","Gaming",160000,"AMD Ryzen 7 5800H","NVIDIA RTX 3060","15.6-inch 144Hz"],
+["ASUS","TUF Gaming F15","Gaming",125000,"Intel Core i5 11th Gen","NVIDIA GTX 1650","15.6-inch 144Hz"],
+["Acer","Aspire 3","Student",32000,"Intel Core i3 10th Gen","Intel UHD","15.6-inch HD"],
+["Acer","Aspire 5","Student",52000,"Intel Core i5 11th Gen","Intel Iris Xe","15.6-inch Full HD"],
+["Acer","Swift 3","Student",45000,"AMD Ryzen 5 5500U","AMD Radeon","14-inch Full HD"],
+["Acer","TravelMate P2","Business",36700,"Intel Core i5 10th Gen","Intel UHD","15.6-inch Full HD"],
+["Acer","Nitro 5","Gaming",110000,"Intel Core i5 11th Gen","NVIDIA GTX 1650","15.6-inch 144Hz"],
+["Acer","Predator Helios 300","Gaming",165000,"Intel Core i7 11th Gen","NVIDIA RTX 3060","15.6-inch 144Hz"],
+["Apple","MacBook Air M1","Creative",105000,"Apple M1 chip","7-core Apple GPU","13.3-inch Retina"],
+["Apple","MacBook Air M2","Creative",140000,"Apple M2 chip","8-core Apple GPU","13.6-inch Liquid Retina"],
+["Apple","MacBook Pro 13 M1","Creative",120000,"Apple M1 chip","8-core Apple GPU","13.3-inch Retina"],
+["Apple","MacBook Pro 14 M1 Pro","Creative",235000,"Apple M1 Pro chip","14-core Apple GPU","14.2-inch Liquid Retina XDR"],
+["MSI","Katana GF66","Gaming",145000,"Intel Core i7 11th Gen","NVIDIA RTX 3050 Ti","15.6-inch 144Hz"],
+["MSI","Modern 14","Student",45000,"Intel Core i5 11th Gen","Intel Iris Xe","14-inch Full HD"],
+["Microsoft","Surface Laptop 3","Creative",76000,"Intel Core i5 10th Gen","Intel Iris Plus","13.5-inch PixelSense"],
+["Microsoft","Surface Pro 6","Creative",55000,"Intel Core i5 8th Gen","Intel UHD 620","12.3-inch PixelSense"]
+];
+
+ 
+const products=[];
+for(let i=0;i<200;i++){
+ const m=models[i%models.length],cycle=Math.floor(i/models.length);
+ const suffix=cycle===0?"":` (Variant ${cycle+1})`;
+ const [brand,model,category,base,cpu,gpu,screen]=m;
+ const price=base+cycle*1500;
+ products.push({id:i+1,brand,name:brand+" "+model+suffix,category,price,cpu,gpu,screen,ram:cycle%2?"16GB":"8GB",storage:cycle%3===0?"256GB SSD":cycle%3===1?"512GB SSD":"1TB SSD",image:laptopPhotos[i%laptopPhotos.length],description:`${brand} ${model}. A ${category.toLowerCase()} laptop option. Confirm the exact configuration and availability with ElectronicHub before ordering.`});
+}
+let cart=[];try{cart=JSON.parse(localStorage.getItem("eh-cart-v2")||"[]")}catch(e){}
+let filter={q:"",cat:"All",max:999999,sort:"featured"};
+const app=document.getElementById("app");
+function save(){localStorage.setItem("eh-cart-v2",JSON.stringify(cart))}
+function card(p){return `<article class="product"><img src="${p.image}" alt="Laptop product photograph" loading="lazy" onerror="this.src='${laptopPhotos[0]}'"><div class="product-body"><span class="tag">${p.brand} · ${p.category}</span><h3>${p.name}</h3><div class="small">${p.cpu} · ${p.ram} RAM · ${p.storage}</div><div class="price">${money(p.price)}</div><button class="btn" onclick="showDetail(${p.id})">View details</button><button class="chip" onclick="addCart(${p.id})">Add to cart</button></div></article>`}
+function home(){return `<div class="hero"><div class="wrap hero-inner"><div><span class="pill">📍 Nairobi CBD · Shop with confidence</span><h1>Find the laptop that fits your life.</h1><p>Explore laptops for work, school, gaming and creativity. Compare specifications and contact us on WhatsApp.</p><div class="actions"><a class="btn light" href="#shop">Browse laptops</a><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, help me choose a laptop.")}">Chat on WhatsApp</a></div></div><img class="hero-img" src="${laptopPhotos[1]}" alt="Laptop on a desk"></div></div><div class="wrap"><section><div class="section-head"><h2>What do you need a laptop for?</h2><p>Choose a category to find suitable models.</p></div><div class="needs">${[["💼","Business & Office","Business"],["🎓","School & Study","Student"],["🎮","Gaming","Gaming"],["🎨","Design & Video","Creative"]].map(x=>`<div class="need" onclick="filter.cat='${x[2]}';location.hash='shop'"><span class="emoji">${x[0]}</span><b>${x[1]}</b><span class="muted">${products.filter(p=>p.category===x[2]).length} listings</span></div>`).join("")}</div></section><section><div class="section-head"><h2>Featured laptops</h2><p>Browse some popular options.</p></div><div class="products">${products.slice(0,4).map(card).join("")}</div><div class="actions"><a class="btn" href="#shop">View all 200 listings →</a></div></section></div>`}
+function shop(){return `<div class="wrap"><section><div class="section-head"><h2>Browse laptops</h2><p>Search by brand, model or intended use. Prices are sample guide prices and must be confirmed.</p></div><div class="toolbar"><input id="search" placeholder="Search HP, Dell, ThinkPad, gaming..." value="${filter.q}"><select id="max"><option value="999999">Any price</option><option value="30000">Under KES 30,000</option><option value="50000">Under KES 50,000</option><option value="70000">Under KES 70,000</option><option value="100000">Under KES 100,000</option><option value="150000">Under KES 150,000</option></select><select id="sort"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div><div class="filters">${["All","Business","Student","Gaming","Creative"].map(c=>`<button class="chip ${filter.cat===c?"active":""}" onclick="setCategory('${c}')">${c}</button>`).join("")}</div><p class="muted" id="resultCount"></p><div class="products" id="productGrid"></div></section></div>`}
+function renderGrid(){const q=filter.q.toLowerCase();let list=products.filter(p=>(filter.cat==="All"||p.category===filter.cat)&&p.price<=filter.max&&(p.name+" "+p.cpu+" "+p.category).toLowerCase().includes(q));if(filter.sort==="low")list.sort((a,b)=>a.price-b.price);if(filter.sort==="high")list.sort((a,b)=>b.price-a.price);document.getElementById("resultCount").textContent=`Showing ${list.length} of 200 laptop listings`;document.getElementById("productGrid").innerHTML=list.length?list.map(card).join(""):'<p class="empty">No matching laptops found. Try another search or contact us on WhatsApp.</p>'}
+function setCategory(c){filter.cat=c;document.querySelectorAll(".filters .chip").forEach(b=>b.classList.toggle("active",b.textContent===c));renderGrid()}
+function bindShop(){const s=document.getElementById("search"),mx=document.getElementById("max"),so=document.getElementById("sort");mx.value=filter.max;so.value=filter.sort;s.oninput=()=>{filter.q=s.value;renderGrid()};mx.onchange=()=>{filter.max=+mx.value;renderGrid()};so.onchange=()=>{filter.sort=so.value;renderGrid()};renderGrid()}
+function showDetail(id){location.hash="product-"+id}
+function detail(id){const p=products.find(x=>x.id===id);if(!p)return home();return `<div class="wrap"><section><a href="#shop" class="muted">← Back to laptops</a><div class="detail" style="margin-top:18px"><div><img class="detail-photo" src="${p.image}" alt="${p.name} laptop photograph"></div><div><span class="tag">${p.brand} · ${p.category}</span><h1 style="font-size:clamp(30px,5vw,42px);margin:8px 0">${p.name}</h1><div class="price">${money(p.price)}</div><p>${p.description}</p><table class="specs"><tr><td>Processor</td><td>${p.cpu}</td></tr><tr><td>Graphics</td><td>${p.gpu}</td></tr><tr><td>Display</td><td>${p.screen}</td></tr><tr><td>RAM</td><td>${p.ram}</td></tr><tr><td>Storage</td><td>${p.storage}</td></tr></table><p class="notice">Photograph may be representative and not the exact model/configuration. Confirm actual product photos, specifications, price and stock with the shop.</p><div class="actions"><button class="btn" onclick="addCart(${p.id})">🛒 Add to cart</button><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, is "+p.name+" available at "+money(p.price)+"? Please send actual photos and confirm specifications.")}">Ask on WhatsApp</a></div><p class="muted">📍 ElectronicHub, Nairobi CBD · 0113 358 070</p></div></div></section></div>`}
+function about(){return `<div class="wrap"><section><h2>About ElectronicHub</h2><p class="muted">Your laptop shop in Nairobi CBD.</p><div class="two"><div class="info"><h3>Our story</h3><p>ElectronicHub helps customers find laptops for work, studies, gaming and creative projects. Our aim is to make comparing laptop specifications easier.</p></div><div class="info"><h3>Why contact us?</h3><p>✔ Help choosing a laptop<br>✔ Product specification guidance<br>✔ WhatsApp enquiries<br>✔ Walk-in shop in Nairobi CBD</p></div></div></section></div>`}
+function contact(){return `<div class="wrap"><section><h2>Contact ElectronicHub</h2><p class="muted">Visit our shop or send us a message.</p><div class="two"><div class="info"><h3>📍 Nairobi CBD, Kenya</h3><p>WhatsApp: 0113 358 070<br>Opening: Monday–Saturday, 8:30am–6:30pm</p><a class="btn green" target="_blank" href="${wa("Hello ElectronicHub, I would like to make an enquiry.")}">Chat on WhatsApp</a></div><div class="info"><h3>Send a message</h3><input class="contact-input" id="customerName" placeholder="Your name" style="width:100%;margin:10px 0"><input class="contact-input" id="message" placeholder="What laptop are you looking for?" style="width:100%;margin-bottom:12px"><button class="btn green" onclick="sendMessage()">Send on WhatsApp</button></div></div></section></div>`}
+function sendMessage(){const n=document.getElementById("customerName").value||"a customer",m=document.getElementById("message").value||"I need help choosing a laptop.";window.open(wa(`Hello ElectronicHub, I am ${n}. ${m}`),"_blank")}
+function addCart(id){const p=products.find(x=>x.id===id);const old=cart.find(x=>x.id===id);if(old)old.qty++;else cart.push({id:p.id,name:p.name,price:p.price,qty:1});save();updateCart();alert(p.name+" added to cart")}
+function removeCart(id){cart=cart.filter(x=>x.id!==id);save();updateCart()}
+function updateCart(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0);document.getElementById("cartItems").innerHTML=cart.length?cart.map(x=>`<div class="cartline"><span>${x.qty} × ${x.name}<br><b>${money(x.price*x.qty)}</b></span><button onclick="removeCart(${x.id})">Remove</button></div>`).join(""):'<p class="muted">Your cart is empty.</p>';const total=cart.reduce((s,x)=>s+x.price*x.qty,0);document.getElementById("cartTotal").textContent=cart.length?"Total: "+money(total):"";document.getElementById("checkout").href=wa(cart.length?"Hello ElectronicHub, I would like to order:\n"+cart.map(x=>`${x.qty} × ${x.name} – ${money(x.price*x.qty)}`).join("\n")+"\nTotal: "+money(total):"Hello ElectronicHub, I have an enquiry.")}
+function route(){const h=(location.hash||"#home").slice(1);if(h.startsWith("product-"))app.innerHTML=detail(Number(h.slice(8)));else if(h==="shop"){app.innerHTML=shop();bindShop()}else if(h==="about")app.innerHTML=about();else if(h==="contact")app.innerHTML=contact();else app.innerHTML=home();document.querySelectorAll(".links a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+(h.startsWith("product-")?"shop":h)));window.scrollTo(0,0)}
+document.getElementById("cartOpen").onclick=()=>document.getElementById("drawer").classList.add("open");document.getElementById("cartClose").onclick=()=>document.getElementById("drawer").classList.remove("open");document.getElementById("drawer").onclick=e=>{if(e.target.id==="drawer")e.currentTarget.classList.remove("open")};document.getElementById("whatsapp").href=wa("Hello ElectronicHub, I need help choosing a laptop.");document.getElementById("checkout").href=wa("Hello ElectronicHub");window.addEventListener("hashchange",route);updateCart();route();
+</script>
+</body></html>
